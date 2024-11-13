@@ -1,0 +1,89 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f8ff;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+}
+
+.game-title {
+  font-size: 3rem;
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.start-button {
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  background-color: #34a853;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.start-button.disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+}
+
+.game-board {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.issues-column, .solutions-column {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.issue-card, .solution-card {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: grab;
+}
+
+.issue-card:hover, .solution-card:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.motivational-message {
+  color: white;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.motivational-message h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.motivational-message p {
+  font-size: 1.2rem;
+}
