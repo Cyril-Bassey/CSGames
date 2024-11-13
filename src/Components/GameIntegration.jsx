@@ -13,7 +13,7 @@ const PuzzleMatchGame = () => {
     { id: 'card3', text: '9 of Clubs' },
   ]);
 
-  const [solutions, setSolutions] = useState([
+  const [solutions] = useState([
     { id: 'solution1', text: 'Jack of Hearts' },
     { id: 'solution2', text: '5 of Spades' },
     { id: 'solution3', text: '4 of Hearts' },
@@ -23,7 +23,7 @@ const PuzzleMatchGame = () => {
 
   useEffect(() => {
     setShuffledSolutions([...solutions].sort(() => Math.random() - 0.5));
-  }, []);
+  }, [solutions]);
 
   useEffect(() => {
     let timer;
