@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import beepSound from "../Assets/Sounds/computer-beeps-232200.mp3";
 import softTone from "../Assets/Sounds/beepbeepbeep-53921.mp3";
 import { Button, Card, Modal, notification } from "antd";
@@ -26,16 +26,38 @@ const BreakReminders = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingAlarmIndex, setEditingAlarmIndex] = useState(null);
   const [countdowns, setCountdowns] = useState([]);
-  const [currentAlarmSound, setCurrentAlarmSound] = useState(null);
+  // const [currentAlarmSound, setCurrentAlarmSound] = useState(null);
   const [audioContext, setAudioContext] = useState(null);
 
+  const handleAlarmTrigger = useCallback(
+    (index) => {
+      if (alarms[index].isRinging) return;
+
+      const sound = new Audio(alarms[index].sound);
+      sound.play();
+
+      const updatedAlarms = [...alarms];
+      updatedAlarms[index].isRinging = true;
+      updatedAlarms[index].soundInstance = sound;
+      setAlarms(updatedAlarms);
+
+      notification.open({
+        message: "Time for a Break!",
+        description: alarms[index].reminders
+          .map((reminder) => defaultQuotes[reminder])
+          .join("\n"),
+      });
+    },
+    [alarms]
+  );
 
   //Set initial user interaction to state
   useEffect(() => {
     // Start audio context on first user interaction to bypass autoplay restriction
     const startAudioContext = () => {
       if (!audioContext) {
-        const context = new (window.AudioContext || window.webkitAudioContext)();
+        const context = new (window.AudioContext ||
+          window.webkitAudioContext)();
         setAudioContext(context);
       }
     };
@@ -84,26 +106,7 @@ const BreakReminders = () => {
     });
 
     return () => timers.forEach((timer) => clearInterval(timer));
-  }, [alarms, countdowns]);
-
-  const handleAlarmTrigger = (index) => {
-    if (alarms[index].isRinging) return;
-
-    const sound = new Audio(alarms[index].sound);
-    sound.play();
-
-    const updatedAlarms = [...alarms];
-    updatedAlarms[index].isRinging = true;
-    updatedAlarms[index].soundInstance = sound;
-    setAlarms(updatedAlarms);
-
-    notification.open({
-      message: "Time for a Break!",
-      description: alarms[index].reminders
-        .map((reminder) => defaultQuotes[reminder])
-        .join("\n"),
-    });
-  };
+  }, [alarms, countdowns, handleAlarmTrigger]);
 
   const stopAlarm = (index) => {
     if (alarms[index].soundInstance) {
